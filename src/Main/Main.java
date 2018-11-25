@@ -13,22 +13,21 @@ import javafx.stage.Stage;
 
 public class Main extends Application implements EventHandler<ActionEvent> {
 
-    Button btnEnter;
-    TextField txtPort;
-    Stage primaryStage;
+    private Button btnEnter;
+    private TextField txtPort;
+    private Stage primaryStage;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("../views/connectScreen.fxml"));
-        this. primaryStage =  primaryStage;
+        this.primaryStage = primaryStage;
         primaryStage.setTitle("Chat Sockets");
         primaryStage.setScene(new Scene(root, 300, 400));
-
         primaryStage.show();
 
         btnEnter = (Button) root.lookup("#btnEnter");
         if (btnEnter != null){
-            btnEnter.setText("Main");
+            btnEnter.setText("Connect");
             btnEnter.setOnAction(this);
         }
         txtPort = (TextField) root.lookup("#txtBoxPort");
@@ -42,16 +41,15 @@ public class Main extends Application implements EventHandler<ActionEvent> {
                 Server server = new Server(Integer.parseInt(txtPort.getText()));
                 Client client = new Client(Integer.parseInt(txtPort.getText()));
 
-                //Parent chat = FXMLLoader.load(getClass().getResource("../views/chatScreen.fxml"));
-                //primaryStage.setScene(new Scene(chat, 500, 400));
-                System.out.println("Passed");
-
                 server.start();
                 client.start();
 
+                Parent chat = FXMLLoader.load(getClass().getResource("../views/chatScreen.fxml"));
+                primaryStage.setScene(new Scene(chat, 500,400));
+
             }
             catch (Exception e){
-
+                System.out.println(e.toString());
             }
         }
     }
